@@ -1,6 +1,8 @@
 <?php
 include ("inc/db.php");
 
+$alreadyUpdated = "Updates have already been saved for this quarter.  If you would like to make updates, please contact Jonathan Lowe at <a href=\"mailto:jlowe@westchasedistrict.com\">jlowe@westchasedistrict.com</a> or 713-780-9434.";
+
 $error = "";
 if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmutype"]) && !empty($_POST["cmutype"]) && isset($_POST["mapno"]) && !empty($_POST["mapno"])) {
 	$quarter = $_POST["quarter"];
@@ -13,6 +15,9 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 			if (canInsertApartment($quarter, $mapno)) {
 
 				$occupancy = $_POST["occupancy"];
+				if (!empty($occupancy)) {
+					$occupancy = str_replace('%', '', $occupancy);
+				}
 
 				$mgmtCompany = $_POST["mgmtCompany"];
 				$mgmtAddress = $_POST["mgmtAddress"];
@@ -54,7 +59,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				}
 
 			} else {
-				$error = "Updates have already been saved for this quarter.";
+				$error = $alreadyUpdated;
 			}
 
 			break;
@@ -97,7 +102,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 					}
 				}
 			} else {
-				$error = "Updates have already been saved for this quarter.";
+				$error = $alreadyUpdated;
 			}
 
 			break;
@@ -109,6 +114,9 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				$generalMgrEmail = $_POST["generalMgrEmail"];
 				$generalMgrPhone = $_POST["generalMgrPhone"];
 				$occupancy = $_POST["occupancy"];
+				if (!empty($occupancy)) {
+					$occupancy = str_replace('%', '', $occupancy);
+				}
 				$comments = $_POST["comments"];
 
 				$query = "insert into cmu_hotel(quarter, property, completed_by, general_mgr, general_mgr_email, general_mgr_phone, occupancy, comments) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", " .
@@ -129,7 +137,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				}
 
 			} else {
-				$error = "Updates have already been saved for this quarter.";
+				$error = $alreadyUpdated;
 			}
 
 			break;
@@ -160,8 +168,14 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				$leasingCompanyFax = $_POST["leasingCompanyFax"];
 
 
-				$sqFtAvail = $_POST["sqFtAvail"];
+				$sqFtAvail = str_replace(',', '', $_POST["sqFtAvail"]);
 				$occupancy = $_POST["occupancy"];
+				if (!empty($occupancy)) {
+					$occupancy = str_replace('%', '', $occupancy);
+				}
+				$occupied = $_POST['occupied'];
+				
+				
 				$largestSpace = $_POST["largestSpace"];
 				$largestSpace6 = $_POST["largestSpace6"];
 				$largestSpace12 = $_POST["largestSpace12"];
@@ -172,7 +186,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				$transOwnerRepArray = $_POST["transOwnerRep"];
 				$transTenantRepArray = $_POST["transTenantRep"];
 
-				$query = "insert into cmu_office_retail_svc(quarter, property, completed_by, for_sale, for_sale_contact, for_sale_phone, sq_ft_for_lease, occupancy, largest_space, largest_space_6mths, largest_space_12mths, property_mgr, property_mgr_phone, property_mgr_fax, property_mgr_email, mgmt_company, mgmt_company_addr, leasing_company, leasing_company_addr, leasing_agent, leasing_agent_phone, leasing_agent_fax, leasing_agent_email, comments) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", $forSale, " .
+				$query = "insert into cmu_office_retail_svc(quarter, property, completed_by, for_sale, for_sale_contact, for_sale_phone, sq_ft_for_lease, occupancy, largest_space, largest_space_6mths, largest_space_12mths, property_mgr, property_mgr_phone, property_mgr_fax, property_mgr_email, mgmt_company, mgmt_company_addr, leasing_company, leasing_company_addr, leasing_agent, leasing_agent_phone, leasing_agent_fax, leasing_agent_email, comments, occupied) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", $forSale, " .
 				formatStrForQuery($forSaleContact) . "," .
 				formatStrForQuery($forSalePhone) . "," .
 				formatNumForQuery($sqFtAvail) . "," .
@@ -192,13 +206,15 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				formatStrForQuery($leasingCompanyPhone) . "," .
 				formatStrForQuery($leasingCompanyFax) . "," .
 				formatStrForQuery($leasingCompanyEmail) . "," .
-				formatStrForQuery($comments) . ")";
+				formatStrForQuery($comments) . "," .
+				formatNumForQuery($occupied) . ")";
 
 				$result = mysql_query($query);
 
 
 				if (!$result) {
 					$error = "There was a problem with your submission.";
+					echo $query;
 					if (DEBUG) {
 						$error .= mysql_error();
 					} else {
@@ -230,7 +246,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				}
 
 			} else {
-				$error = "Updates have already been saved for this quarter.";
+				$error = $alreadyUpdated;
 			}
 
 			break;
@@ -278,7 +294,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 ?>
 	<h2>Thank you</h2>
     <p>Thank you for submitting your quarterly updates.</p>
-	<p>If you have any queastions, please contact Jonathan Lowe at <a href=\"mailto:jlowe@westchasedistrict.com\">jlowe@westchasedistrict.com</a> or 713-780-9434</p>
+	<p>If you have any questions, please contact Jonathan Lowe at <a href=\"mailto:jlowe@westchasedistrict.com\">jlowe@westchasedistrict.com</a> or 713-780-9434</p>
 <?php } ?>
 
 		</div>

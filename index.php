@@ -22,7 +22,8 @@ if ($month >= 1 and $month <= 3) {
 }
 
 
-$quarterQuery = "select * from cmu_quarter where id < 999999999";
+// $quarterQuery = "select * from cmu_quarter where id < 999999999";
+$quarterQuery = "select * from cmu_quarter";
 $quarterResult = mysql_query($quarterQuery);
 
 $quarterSelect = "";

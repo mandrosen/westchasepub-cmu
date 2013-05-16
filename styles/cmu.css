@@ -146,6 +146,7 @@ span.format {
 	font-style: italic;
 	color: #777;
 }
+input.readonly { background-color: #ccc; }
 
 .transactioninfos tr {
 	border-bottom: 1px solid #ccc;

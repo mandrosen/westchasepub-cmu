@@ -1,6 +1,7 @@
 <?php
 include ("constants.php");
-$connection = mysql_connect("localhost", "westchase", "xxxx");
+//$connection = mysql_connect("localhost", "westchase", "xxxx");
+$connection = mysql_connect("localhost", "root", "");
 mysql_select_db("westchasepub") or die("unable to select db");
 
 //$mysqli = new mysql("localhost", "westchase", "wc!user", "westchasepub");

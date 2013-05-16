@@ -175,6 +175,7 @@ $server->wsdl->addComplexType(
         'for_sale_phone' => array('name' => 'for_sale_phone', 'type' => 'xsd:string'),
         'sq_ft_for_lease' => array('name' => 'sq_ft_for_lease', 'type' => 'xsd:float'),
         'occupancy' => array('name' => 'occupancy', 'type' => 'xsd:float'),
+        'occupied' => array('name' => 'occupied', 'type' => 'xsd:float'),
         'largest_space' => array('name' => 'largest_space', 'type' => 'xsd:float'),
         'largest_space_6mths' => array('name' => 'largest_space_6mths', 'type' => 'xsd:float'),
         'largest_space_12mths' => array('name' => 'largest_space_12mths', 'type' => 'xsd:float'),

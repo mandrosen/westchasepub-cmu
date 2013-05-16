@@ -209,10 +209,20 @@ if ($row2 = mysql_fetch_array($result2)) {
 
 <table>
 	<tbody>
-    	<tr><th><label for="occ-rate">Occupancy Rate at close of quarter</label></th>
-     	   <td><input type="text" name="occupancy" id="occ-rate" class="required percent" /><a class="link" onclick="toggle('help_occ_rate')">Help</a>
-     	   		<div id="help_occ_rate" class="help" onclick="toggle('help_occ_rate')">This field expects a percent.  Example values: 20, 55, or 73.2.  Note: you do not need to type the '%'.</div>
-     	   </td></tr>
+    	<tr><th><label for="occ-rate">Occupancy Rate</label><span class="format">Example: 33% or 33</span></th>
+     	   <td><input type="text" name="occupancy" id="occ-rate" class="required percent" /></td></tr>
+    </tbody>
+</table>
+
+<table>
+	<caption>Management Company</caption>
+    <tbody>
+    	<tr><th><label for="mgmt-name">Name</label></th>
+        	<td><input type="text" name="mgmtCompany" id="mgmt-name" size="50" maxlength="255" class="required" value="<?php echo $company ?>" /></td></tr>
+        <!-- removed 2013-03-21 meeting
+    	<tr><th><label for="mgmt-addr">Address</label></th>
+        	<td><input type="text" name="mgmtCompanyAddr" id="mgmt-addr" size="75" maxlength="255" class="required" value="<?php echo $companyAddress ?>" /></td></tr>
+        -->
     </tbody>
 </table>
 
@@ -225,18 +235,10 @@ if ($row2 = mysql_fetch_array($result2)) {
             <td><input type="text" name="communityMgrEmail" id="comm-mgr-email" size="60" maxlength="255" class="required email" value="<?php echo $email ?>" /></td></tr>
         <tr><th><label for="comm-mgr-phone">Phone</label></th>
             <td><input type="text" name="communityMgrPhone" id="comm-mgr-phone" size="20" maxlength="20" class="required phone" value="<?php echo $wkPhone ?>" /></td></tr>
+        <!-- removed 2013-03-21 meeting
         <tr><th><label for="comm-mgr-fax">Fax</label></th>
             <td><input type="text" name="communityMgrFax" id="comm-mgr-fax" size="20" maxlength="20" class="phone" value="<?php echo $faxPhone ?>" /></td></tr>
-    </tbody>
-</table>
-
-<table>
-	<caption>Management Company</caption>
-    <tbody>
-    	<tr><th><label for="mgmt-name">Name</label></th>
-        	<td><input type="text" name="mgmtCompany" id="mgmt-name" size="50" maxlength="255" class="required" value="<?php echo $company ?>" /></td></tr>
-    	<tr><th><label for="mgmt-addr">Address</label></th>
-        	<td><input type="text" name="mgmtCompanyAddr" id="mgmt-addr" size="75" maxlength="255" class="required" value="<?php echo $companyAddress ?>" /></td></tr>
+           -->
     </tbody>
 </table>
 
@@ -249,8 +251,12 @@ if ($row2 = mysql_fetch_array($result2)) {
             <td><input type="text" name="supervisorEmail" id="super-email" size="60" maxlength="255" class="required email" value="<?php echo $supEmail ?>"/></td></tr>
         <tr><th><label for="super-phone">Phone</label></th>
             <td><input type="text" name="supervisorPhone" id="super-phone" size="20" maxlength="20" class="required phone" value="<?php echo $supPhone ?>" /></td></tr>
+        <!-- removed 2013-03-21 meeting
         <tr><th><label for="super-fax">Fax</label></th>
             <td><input type="text" name="supervisorFax" id="super-fax" size="20" maxlength="20" class="phone" value="<?php echo $supFaxPhone ?>" /></td></tr>
+           -->
+    	<tr><th><label for="super-addr">Address</label></th>
+        	<td><input type="text" name="mgmtCompanyAddr" id="super-addr" size="75" maxlength="255" class="required" value="<?php echo $companyAddress ?>" /></td></tr>
     </tbody>
 </table>
 
@@ -259,21 +265,23 @@ if ($row2 = mysql_fetch_array($result2)) {
     <tbody>
         <tr><th><label for="owner-name">Name</label></th>
             <td><input type="text" name="owner" id="owner-name" size="40" maxlength="255" class="required" value="<?php echo $owner ?>" /></td></tr>
+        <!-- removed 2013-03-21 meeting
         <tr><th><label for="owner-addr">Address</label></th>
             <td><input type="text" name="ownerAddress" id="owner-addr" size="75" maxlength="255" class="required" value="<?php echo $ownerAddr ?>" /></td></tr>
         <tr><th><label for="owner-phone">Phone</label></th>
             <td><input type="text" name="ownerPhone" id="owner-phone" size="20" maxlength="20" class="required phone" value="<?php echo $ownerPhone ?>" /></td></tr>
         <tr><th><label for="owner-fax">Fax</label></th>
             <td><input type="text" name="ownerFax" id="owner-fax" size="20" maxlength="20" class="phone" value="<?php echo $ownerFax ?>" /></td></tr>
+           -->
     </tbody>
 </table>
-
+        <!-- removed 2013-03-21 meeting
 <table>
 	<tbody>
         <tr><th><label for="comment">Comments</label></th>
         	<td><textarea name="comments" id="comment" rows="3" cols="50"></textarea></td></tr>
 	</tbody>
-</table>
+</table>-->
 
   <!-- InstanceEndEditable -->
 

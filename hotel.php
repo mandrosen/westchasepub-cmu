@@ -108,29 +108,29 @@ if ($row3 = mysql_fetch_array($result3)) {
     <caption>General Manager</caption>
     <tbody>
         <tr><th><label for="gen_mgr">Name</label></th>
-            <td><input type="text" name="generalMgr" id="gen_mgr" maxlength="255" class="required" value="<?php echo $genMgrName ?>" /></td></tr>
+            <td><input type="text" name="generalMgr" id="gen_mgr" maxlength="255" size="60" class="required" value="<?php echo $genMgrName ?>" /></td></tr>
         <tr><th><label for="gen_mgr_email">Email</label></th>
-            <td><input type="text" name="generalMgrEmail" id="gen_mgr_email" maxlength="255" class="required email" value="<?php echo $genMgrEmail ?>" /></td></tr>
+            <td><input type="text" name="generalMgrEmail" id="gen_mgr_email" maxlength="255" size="60" class="required email" value="<?php echo $genMgrEmail ?>" /></td></tr>
         <tr><th><label for="gen_mgr_phone">Phone</label></th>
-            <td><input type="text" name="generalMgrPhone" id="gen_mgr_phone" maxlength="20" size="20" class="required phone" value="<?php echo $genMgrPhone ?>" /></td></tr>
+            <td><input type="text" name="generalMgrPhone" id="gen_mgr_phone" maxlength="20" size="60" class="required phone" value="<?php echo $genMgrPhone ?>" /></td></tr>
     </tbody>
 </table>
 
 <table>
 	<tbody>
-    	<tr><th><label for="occ_rate">Occupancy Percent (average for three month period)</label></th>
-     	   <td><input type="text" name="occupancy" id="occ_rate" class="required percent"/><a class="link" onclick="toggle('help_occ_rate')">Help</a>
-     	   		<div id="help_occ_rate" class="help" onclick="toggle('help_occ_rate')">This field expects a percent.  Example values: 20, 55, or 73.2.  Note: you do not need to type the '%'.</div>
-     	   </td></tr>
+    	<tr><th><label id="occ-rate">Occupancy Rate</label><span class="format">Example: 33% or 33</span></th>
+     	   <td><input type="text" name="occupancy" id="occ_rate" class="required percent"/></td></tr>
     </tbody>
 </table>
 
+<!-- removed 2013-03-21 meeting
 <table>
 	<tbody>
         <tr><th><label for="site_comment">Comments</label></th>
         	<td><textarea name="comments" id="site_comment" rows="3" cols="50"></textarea></td></tr>
 	</tbody>
 </table>
+-->
 
   <!-- InstanceEndEditable -->
 
