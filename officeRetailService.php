@@ -104,6 +104,13 @@ if ($row = mysql_fetch_array($result)) {
 
 if (!empty($buildingSize)) {
 	$buildingSize = number_format($buildingSize);
+} else {
+	$queryBS = "select sq_ft_for_lease from cmu_office_retail_svc where property = $mapno and quarter = ($quarter - 1)";
+	$resultBS = mysql_query($queryBS);
+	if ($rowBS = mysql_fetch_array($resultBS)) {
+		$buildingSize = number_format($rowBS["sq_ft_for_lease"]);
+	}
+	
 }
 
 // define these since they might not exist in the DB (to avoid warning)
@@ -396,9 +403,12 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
     	<tr><th><label id="occ-rate">Occupancy Rate</label><span class="format">Example: 33% or 33</span></th>
      	   <td><input type="text" name="occupancy" id="occ_rate" class="required percent"/>
      	   </td></tr>
+     	<input type="hidden" name="occupied" value="0" />
+     	<!--
     	<tr><th><label id="occ-space">Occupied Space</label><span class="format">sq. ft</span></th>
      	   <td><input type="text" name="occupied" id="occ_space" class="required"/>
      	   </td></tr>
+     	  -->
      	<?php } 
         if (!$officeSingle) { ?>
     	<tr><th><label id="largest-space">Largest Contiguous Space Available (sq. ft)</label></th>
