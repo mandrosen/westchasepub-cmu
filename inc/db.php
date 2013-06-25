@@ -1,10 +1,8 @@
 <?php
 include ("constants.php");
-//$connection = mysql_connect("localhost", "westchase", "xxxx");
-$connection = mysql_connect("localhost", "root", "");
+$connection = mysql_connect("localhost", "westchase", "xxx");
+// $connection = mysql_connect("localhost", "root", "");
 mysql_select_db("westchasepub") or die("unable to select db");
-
-//$mysqli = new mysql("localhost", "westchase", "wc!user", "westchasepub");
 
 function canInsertApartment($quarter, $mapno) {
 	$id = 0;
@@ -43,13 +41,38 @@ function canInsertOfficeRetailService($quarter, $mapno) {
 	return $id <= 0;
 }
 
+
+function replaceBadNumChars($num) {
+	$num = str_replace(',', '', $num);
+	$num = str_replace(' ', '', $num);
+	return $num;	
+}
+
 function formatNumForQuery($num) {
+	// could just cast to int, but this is used for non-int columns
+	// for now, just remove the comma (that is causing an issue)
+	// for future queries, use formatIntForQuery or formatFloatForQuery
 	if (empty($num) && $num != "0") {
 		return "NULL";
 	}
 	if ($num == 0) return 0;
-	return $num;
+	return replaceBadNumChars($num);
 }
+function formatIntForQuery($num) {
+	if (empty($num) && $num != "0") {
+		return "NULL";
+	}
+	if ($num == 0) return 0;
+	return intval(replaceBadNumChars($num));
+}
+function formatFloatForQuery($num) {
+	if (empty($num) && $num != "0") {
+		return "NULL";
+	}
+	if ($num == 0) return 0;
+	return floatval(replaceBadNumChars($num));
+}
+
 function formatStrForQuery($str) {
 	if (empty($str)) {
 		return "NULL";
