@@ -288,6 +288,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 	if (!empty($error)) {
     	echo "<div class=\"error\">
         	<p>$error</p>
+        	<p>Commons problems including number formats (extra/invalid characters) or missing data.</p>
             <p>Please contact Jonathan Lowe at <a href=\"mailto:jlowe@westchasedistrict.com\">jlowe@westchasedistrict.com</a> or 713-780-9434</p>
         </div>";
     } else {
