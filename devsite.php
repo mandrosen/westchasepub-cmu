@@ -77,7 +77,7 @@ if ($row = mysql_fetch_array($result)) {
 		return this.optional(element) || /^\d*\.\d*$/i.test(value);
 	}, "Please enter a valid size in acres.");
 
-
+	
 	$().ready(function() {
 		$(".required").after("<span class='requiredfield'>*</span>");
 

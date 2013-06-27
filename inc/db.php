@@ -1,6 +1,6 @@
 <?php
 include ("constants.php");
-$connection = mysql_connect("localhost", "westchase", "xxx");
+$connection = mysql_connect("localhost", "westchase", "wc!user");
 // $connection = mysql_connect("localhost", "root", "");
 mysql_select_db("westchasepub") or die("unable to select db");
 
@@ -39,6 +39,26 @@ function canInsertOfficeRetailService($quarter, $mapno) {
 		$id = $row["id"];
 	}
 	return $id <= 0;
+}
+
+function canInsertOfficeRetailServiceLeases($quarter, $mano) {	
+	$id = 0;
+	$query = "select id from cmu_office_retail_svc where quarter = " . $quarter . " and property = $mapno";
+	$rowFound = TRUE;
+	$result = mysql_query($query) or $rowFound = FALSE; 
+	if ($rowFound && $row = mysql_fetch_array($result)) {
+		$id = $row["id"];
+	}
+	if ($id > 0) {
+		$leaseCount = 0;
+		$query = "select count(id) as leaseCount from cmu_lease where quarter = " . $quarter . " and property = $mapno";
+		$result = mysql_query($query);
+		if ($row = mysql_fetch_array($result)) {
+			$leaseCount = $row["leaseCount"];
+		}
+		return $leaseCount == 0;
+	}
+	return FALSE;
 }
 
 

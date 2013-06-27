@@ -133,7 +133,7 @@ input[type=text]:focus,
 textarea:focus {
 	border: 1px solid #FC3;	
 }
-label, input, select, option {
+label, input, select, option, span.quarter {
 	font-size: 11px;
 }
 label.error {

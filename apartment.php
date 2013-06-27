@@ -151,6 +151,19 @@ if ($row2 = mysql_fetch_array($result2)) {
 		return this.optional(element) || /^100\%?$/i.test(value) || /^[1-9]?[0-9]\.?[0-9]*\%?$/i.test(value);
 	}, "Please enter a valid percent between 0 and 100. ex. 25 or 25.2%");
 
+	
+	function validateForm() {
+		var errors = "";
+		var occupancyInt = parseInt($("#occ_rate").val());
+		if (occupancyInt < 0 || occupancyInt > 100) {
+			errors += "Occupancy, " + occupancyInt + ", is outside range (0 - 100)\n";
+		}
+		if (errors.length > 0) {
+			alert("Invalid input detected:\n\n" + errors);
+			return false;
+		}
+		return true;
+	}
 
 	$().ready(function() {
 
@@ -192,7 +205,7 @@ if ($row2 = mysql_fetch_array($result2)) {
 <h4 class="propname">Property Name: <span class="value"><?php echo $buildingName ?></span></h4>
 <h4 class="proploc">Property Location: <span class="value"><?php echo $proploc ?></span></h4>
 
-<form action="process.php" method="post" id="cmuform">
+<form action="process.php" method="post" id="cmuform" onsubmit="return validateForm();">
 <div>
 <input type="hidden" name="quarter" value="<?php echo $quarter ?>" />
 <input type="hidden" name="cmutype" value="<?php echo $reptype ?>" />

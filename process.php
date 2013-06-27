@@ -214,7 +214,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 
 				if (!$result) {
 					$error = "There was a problem with your submission.";
-					echo $query;
+					
 					if (DEBUG) {
 						$error .= mysql_error();
 					} else {
@@ -233,7 +233,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 								formatStrForQuery($transTenantRepArray[$i]) . ")";
 								$tresult = mysql_query($tquery);
 								if (!$tresult) {
-									$error = "There was a problem with your submission.";
+									$error = "Your occupancy and contact information was successfully recorded, however there was an error storing the optional leasing information.  To enter the leasing information, <a href='http://www.westchasedistrict.com/app/cmu/leases.php?mapno=$mapno&quarter=$quarter'>click here</a>.";
 									if (DEBUG) {
 										$error .= mysql_error();
 									} else {
@@ -250,6 +250,43 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 			}
 
 			break;
+			
+		case 5:
+			
+			//if (canInsertOfficeRetailServiceLeases($quarter, $mapno)) {
+
+				$transTenantArray = $_POST["transTenant"];
+				$transSqFtArray = $_POST["transSqFt"];
+				$transTypeArray = $_POST["transType"];
+				$transOwnerRepArray = $_POST["transOwnerRep"];
+				$transTenantRepArray = $_POST["transTenantRep"];
+			
+			
+				if (!empty($transTypeArray)) {
+					for ($i = 0; $i < sizeof($transTypeArray); $i++) {
+						$transTenant = $transTenantArray[$i];
+						$transSqFt = $transSqFtArray[$i];
+						if (!empty($transTenant) && !empty($transSqFt)) {
+							$tquery = "insert into cmu_lease(quarter, property, tenant_name, sq_ft, lease_trans_type, owners_rep, tenants_rep) values (" . $quarter . ", $mapno, " . formatStrForQuery($transTenantArray[$i]) . "," .
+							formatNumForQuery($transSqFtArray[$i]) . "," .
+							$transTypeArray[$i] . "," .
+							formatStrForQuery($transOwnerRepArray[$i]) . "," .
+							formatStrForQuery($transTenantRepArray[$i]) . ")";
+							$tresult = mysql_query($tquery);
+							if (!$tresult) {
+								$error = "There was an error storing this leasing information.";
+								if (DEBUG) {
+									$error .= mysql_error();
+								} else {
+									mail("mandrosen@gmail.com", "Westchase query error", mysql_error() . "<br>" . $tquery);
+								}
+							}
+						}
+					}
+				}
+			//}
+			
+			break; 
 
 		default:
 
@@ -288,7 +325,6 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 	if (!empty($error)) {
     	echo "<div class=\"error\">
         	<p>$error</p>
-        	<p>Commons problems including number formats (extra/invalid characters) or missing data.</p>
             <p>Please contact Jonathan Lowe at <a href=\"mailto:jlowe@westchasedistrict.com\">jlowe@westchasedistrict.com</a> or 713-780-9434</p>
         </div>";
     } else {

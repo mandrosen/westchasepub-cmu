@@ -10,10 +10,10 @@ $month = $dateArray["mon"];
 if ($month >= 1 and $month <= 3) {
 	$currentQuarterNum = 4;
 	$currentQuarterYear = $year - 1;
-} else if ($month >= 4 and $month <= 5) {
+} else if ($month >= 4 and $month <= 6) {
 	$currentQuarterNum = 1;
 	$currentQuarterYear = $year;
-} else if ($month >= 6 and $month < 9) {
+} else if ($month >= 7 and $month < 9) {
 	$currentQuarterNum = 2;
 	$currentQuarterYear = $year;
 } else {
@@ -23,18 +23,12 @@ if ($month >= 1 and $month <= 3) {
 
 
 // $quarterQuery = "select * from cmu_quarter where id < 999999999";
-$quarterQuery = "select * from cmu_quarter";
+$quarterQuery = "select id from cmu_quarter where year = $currentQuarterYear = quarter_num = $currentQuarterNum";
 $quarterResult = mysql_query($quarterQuery);
 
-$quarterSelect = "";
-while ($quarterRow = mysql_fetch_array($quarterResult)) {
-	$quarterSelect .= "<option value=\"{$quarterRow["id"]}\"";
 
-	if ($quarterRow["year"] == $currentQuarterYear && $quarterRow["quarter_num"] == $currentQuarterNum) {
-		$quarterSelect .= " selected=\"selected\"";
-	}
-
-	$quarterSelect .= ">{$quarterRow["description"]}</option>";
+if ($quarterRow = mysql_fetch_array($quarterResult)) {
+	$quarterId = $quarterRow["id"];
 }
 
 $error = "";
@@ -103,18 +97,11 @@ if (isset($_POST["mapno"]) && !empty($_POST["mapno"])) {
 			<div class="initialform">
                 <form action="." method="post">
                 	<div>
-                        <label for="mapno">Please enter the MapNo of your property</label>
+                		<input type="hidden" name="quarter" value="<?php echo $quarterId ?>" />
+                        <label for="mapno">Please enter the Map Number of your property: </label>
                         <input type="text" name="mapno" id="mapno" size="3" maxlength="4" />
 
-                        <label for="quarter">Which reporting quarter?</label>
-                        <select name="quarter" id="quarter">
-                        	<!--
-                        	<option value="999999999">9th Quarter 9</option>
-                        	<option value="1">3rd Quarter 2010</option>
-                        	<option value="2" selected="selected">4th Quarter 2010</option>
-                        	-->
-                        	<?php echo $quarterSelect ?>
-                        </select>
+						<span class="quarter">You are entering data for Q<?php echo $currentQuarterNum ?> <?php echo $currentQuarterYear ?></span>
                         <input type="submit" value="Submit" />
                     </div>
                 </form>

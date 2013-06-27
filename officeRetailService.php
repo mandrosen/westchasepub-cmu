@@ -304,9 +304,24 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
 
 	  	$("input.phone").mask("(999) 999-9999");
 
-		$("#cmuform").validate({
+		$("#cmuform").validate({ 
 		});
 	});
+	
+	function validateForm() {
+		// TODO: move this to jQuery.validator.addMethod
+		
+		var errors = "";
+		var occupancyInt = parseInt($("#occ_rate").val());
+		if (occupancyInt < 0 || occupancyInt > 100) {
+			errors += "Occupancy, " + occupancyInt + ", is outside range (0 - 100)\n";
+		}
+		if (errors.length > 0) {
+			alert("Invalid input detected:\n\n" + errors);
+			return false;
+		}
+		return true;
+	}
 
 	function checkTransactions() {
 		var hasTrans = false;
@@ -375,7 +390,7 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
 
 <h5 class="required-fields-desc">All Fields Required</h5>
 
-<form action="process.php" method="post" id="cmuform">
+<form action="process.php" method="post" id="cmuform" onsubmit="return validateForm();">
 <div>
 <input type="hidden" name="quarter" value="<?php echo $quarter ?>" />
 <input type="hidden" name="cmutype" value="<?php echo $reptype ?>" />
