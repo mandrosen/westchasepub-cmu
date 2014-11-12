@@ -1,7 +1,6 @@
 <?php
 include ("constants.php");
-$connection = mysql_connect("localhost", "westchase", "wc!user");
-// $connection = mysql_connect("localhost", "root", "");
+$connection = mysql_connect("localhost", "root", "");
 mysql_select_db("westchasepub") or die("unable to select db");
 
 function canInsertApartment($quarter, $mapno) {
