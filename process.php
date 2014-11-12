@@ -1,6 +1,13 @@
 <?php
 include ("inc/db.php");
 
+function getStaticInfoCorrect($post) {
+	if (isset($post['staticInfoCorrect']) && $post['staticInfoCorrect'] == 'yes') {
+		return 1;
+	}
+	return 0;
+}
+
 $alreadyUpdated = "Updates have already been saved for this quarter.  If you would like to make updates, please contact Jonathan Lowe at <a href=\"mailto:jlowe@westchasedistrict.com\">jlowe@westchasedistrict.com</a> or 713-780-9434.";
 
 $error = "";
@@ -38,15 +45,17 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				$ownerFax = $_POST["ownerFax"];
 
 				$comments = $_POST["comments"];
+				
+				$staticInfoCorrect = getStaticInfoCorrect($_POST);
 
-				$query = "insert into cmu_apartment(quarter, property, completed_by, occupancy_rate, community_mgr, community_mgr_email, community_mgr_phone, community_mgr_fax, mgmt_company, mgmt_company_addr, supervisor, supervisor_email, supervisor_phone, supervisor_fax, owner, owner_address, owner_phone, owner_fax, comments) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ",
+				$query = "insert into cmu_apartment(quarter, property, completed_by, occupancy_rate, community_mgr, community_mgr_email, community_mgr_phone, community_mgr_fax, mgmt_company, mgmt_company_addr, supervisor, supervisor_email, supervisor_phone, supervisor_fax, owner, owner_address, owner_phone, owner_fax, comments, static_info_correct) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ",
 				$occupancy, " . formatStrForQuery($communityMgr) . "," . formatStrForQuery($communityMgrEmail) . "," .
 				formatStrForQuery($communityMgrPhone) . "," . formatStrForQuery($communityMgrFax) . "," .
 				formatStrForQuery($mgmtCompany) . "," . formatStrForQuery($mgmtAddress) . "," .
 				formatStrForQuery($supervisor) . "," . formatStrForQuery($supervisorEmail) . "," .
 				formatStrForQuery($supervisorPhone) . "," . formatStrForQuery($supervisorFax) . "," .
 				formatStrForQuery($owner) . "," . formatStrForQuery($ownerAddress) . "," .
-				formatStrForQuery($ownerPhone) . "," . formatStrForQuery($ownerFax) . "," . formatStrForQuery($comments) . ")";
+				formatStrForQuery($ownerPhone) . "," . formatStrForQuery($ownerFax) . "," . formatStrForQuery($comments) . ", $staticInfoCorrect)";
 
 				$result = mysql_query($query);
 				if (!$result) {
@@ -79,9 +88,11 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				$priceSqFt = $_POST["priceSqFt"];
 				$restrictions = $_POST["restrictions"];
 				$comments = $_POST["comments"];
+				
+				$staticInfoCorrect = getStaticInfoCorrect($_POST);
 
 				$query = "insert into cmu_devsite(quarter, property, completed_by, site_size, frontage, contact, company, phone, fax, email, divide, price_sq_ft,
-				restrictions, comments) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", " .
+				restrictions, comments, static_info_correct) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", " .
 				formatNumForQuery($siteSize) . "," .
 				formatStrForQuery($frontage) . "," .
 				formatStrForQuery($contact) . "," .
@@ -90,7 +101,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				formatStrForQuery($fax) . "," .
 				formatStrForQuery($email) . ", $divide, " .
 				formatStrForQuery($priceSqFt) . "," .
-				formatStrForQuery($restrictions) . ", " . formatStrForQuery($comments) . ")";
+				formatStrForQuery($restrictions) . ", " . formatStrForQuery($comments) . ", $staticInfoCorrect)";
 
 				$result = mysql_query($query);
 				if (!$result) {
@@ -118,13 +129,15 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 					$occupancy = str_replace('%', '', $occupancy);
 				}
 				$comments = $_POST["comments"];
+				
+				$staticInfoCorrect = getStaticInfoCorrect($_POST);
 
-				$query = "insert into cmu_hotel(quarter, property, completed_by, general_mgr, general_mgr_email, general_mgr_phone, occupancy, comments) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", " .
+				$query = "insert into cmu_hotel(quarter, property, completed_by, general_mgr, general_mgr_email, general_mgr_phone, occupancy, comments, static_info_correct) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", " .
 				formatStrForQuery($generalMgr) . "," .
 				formatStrForQuery($generalMgrEmail) . "," .
 				formatStrForQuery($generalMgrPhone) . "," .
 				formatNumForQuery($occupancy) . "," .
-				formatStrForQuery($comments) . ")";
+				formatStrForQuery($comments) . ", $staticInfoCorrect)";
 
 				$result = mysql_query($query);
 				if (!$result) {
@@ -175,6 +188,8 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				}
 				$occupied = $_POST['occupied'];
 				
+				$staticInfoCorrect = getStaticInfoCorrect($_POST);
+				
 				
 				$largestSpace = $_POST["largestSpace"];
 				$largestSpace6 = $_POST["largestSpace6"];
@@ -186,7 +201,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				$transOwnerRepArray = $_POST["transOwnerRep"];
 				$transTenantRepArray = $_POST["transTenantRep"];
 
-				$query = "insert into cmu_office_retail_svc(quarter, property, completed_by, for_sale, for_sale_contact, for_sale_phone, sq_ft_for_lease, occupancy, largest_space, largest_space_6mths, largest_space_12mths, property_mgr, property_mgr_phone, property_mgr_fax, property_mgr_email, mgmt_company, mgmt_company_addr, leasing_company, leasing_company_addr, leasing_agent, leasing_agent_phone, leasing_agent_fax, leasing_agent_email, comments, occupied) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", $forSale, " .
+				$query = "insert into cmu_office_retail_svc(quarter, property, completed_by, for_sale, for_sale_contact, for_sale_phone, sq_ft_for_lease, occupancy, largest_space, largest_space_6mths, largest_space_12mths, property_mgr, property_mgr_phone, property_mgr_fax, property_mgr_email, mgmt_company, mgmt_company_addr, leasing_company, leasing_company_addr, leasing_agent, leasing_agent_phone, leasing_agent_fax, leasing_agent_email, comments, occupied, static_info_correct) values (" . $quarter . ", $mapno, " . formatStrForQuery($completedBy) . ", $forSale, " .
 				formatStrForQuery($forSaleContact) . "," .
 				formatStrForQuery($forSalePhone) . "," .
 				formatNumForQuery($sqFtAvail) . "," .
@@ -207,7 +222,7 @@ if (isset($_POST["quarter"]) && !empty($_POST["quarter"]) && isset($_POST["cmuty
 				formatStrForQuery($leasingCompanyFax) . "," .
 				formatStrForQuery($leasingCompanyEmail) . "," .
 				formatStrForQuery($comments) . "," .
-				formatNumForQuery($occupied) . ")";
+				formatNumForQuery($occupied) . ", $staticInfoCorrect)";
 
 				$result = mysql_query($query);
 

@@ -76,61 +76,7 @@ if ($row2 = mysql_fetch_array($result2)) {
 	$supFaxPhone = $row["FaxPhone"];
 }
 
-//if () {
 
-	// last quarter results (to fill missing fields)
-	$lastQuarter = $quarter - 1;
-	$query3 = "select * from cmu_apartment where property = $mapno and quarter = $lastQuarter";
-	$result3 = mysql_query($query3);
-	if ($row3 = mysql_fetch_array($result3)) {
-		if (empty($manager)) {
-			$manager = $row3["community_mgr"];
-		}
-		if (empty($wkPhone)) {
-			$wkPhone = $row3["community_mgr_phone"];
-		}
-		if (empty($faxPhone)) {
-			$faxPhone = $row3["community_mgr_fax"];
-		}
-		if (empty($email)) {
-			$email = $row3["community_mgr_email"];
-		}
-
-		if (empty($company)) {
-			$company = $row3["mgmt_company"];
-		}
-		if (empty($companyAddress)) {
-			$companyAddress = $row3["mgmt_company_addr"];
-		}
-
-
-		if (empty($supervisor)) {
-			$supervisor = $row3["supervisor"];
-		}
-		if (empty($supEmail)) {
-			$supEmail = $row3["supervisor_email"];
-		}
-		if (empty($supPhone)) {
-			$supPhone = $row3["supervisor_phone"];
-		}
-		if (empty($supFaxPhone)) {
-			$supFaxPhone = $row3["supervisor_fax"];
-		}
-
-		if (empty($owner)) {
-			$supervisor = $row3["owner"];
-		}
-		if (empty($ownerAddr)) {
-			$ownerAddr = $row3["owner_address"];
-		}
-		if (empty($ownerPhone)) {
-			$ownerPhone = $row3["owner_phone"];
-		}
-		if (empty($ownerFax)) {
-			$ownerFax = $row3["owner_fax"];
-		}
-	}
-//}
 ?>
 
 <!DOCTYPE html>
@@ -218,8 +164,6 @@ if ($row2 = mysql_fetch_array($result2)) {
     </tbody>
 </table>
 
-  <!-- InstanceBeginEditable name="formarea" -->
-
 <table>
 	<tbody>
     	<tr><th><label for="occ-rate">Occupancy Rate</label><span class="format">Example: 33% or 33</span></th>
@@ -227,76 +171,63 @@ if ($row2 = mysql_fetch_array($result2)) {
     </tbody>
 </table>
 
-<table>
-	<caption>Management Company</caption>
-    <tbody>
-    	<tr><th><label for="mgmt-name">Name</label></th>
-        	<td><input type="text" name="mgmtCompany" id="mgmt-name" size="50" maxlength="255" class="required" value="<?php echo $company ?>" /></td></tr>
-        <!-- removed 2013-03-21 meeting
-    	<tr><th><label for="mgmt-addr">Address</label></th>
-        	<td><input type="text" name="mgmtCompanyAddr" id="mgmt-addr" size="75" maxlength="255" class="required" value="<?php echo $companyAddress ?>" /></td></tr>
-        -->
-    </tbody>
-</table>
+<div id="static-info">
+	
+	<table>
+		<tbody>
+	    	<tr>
+	    		<td id="static-info-correct">
+	    			<span>Is the following information correct?</span>
+	    			<label>Yes<input type="radio" name="staticInfoCorrect" value="yes" checked="checked" /></label>
+	    			<label>No<input type="radio" name="staticInfoCorrect" value="no" /></label>
+	    		</td>
+	    	</tr>
+	    </tbody>
+	</table>
 
-<table>
-    <caption>Community Manager</caption>
-    <tbody>
-        <tr><th><label for="comm-mgr">Name</label></th>
-            <td><input type="text" name="communityMgr" id="comm-mgr" size="40" maxlength="255" class="required" value="<?php echo $manager ?>" /></td></tr>
-        <tr><th><label for="comm-mgr-email">Email</label></th>
-            <td><input type="text" name="communityMgrEmail" id="comm-mgr-email" size="60" maxlength="255" class="required email" value="<?php echo $email ?>" /></td></tr>
-        <tr><th><label for="comm-mgr-phone">Phone</label></th>
-            <td><input type="text" name="communityMgrPhone" id="comm-mgr-phone" size="20" maxlength="20" class="required phone" value="<?php echo $wkPhone ?>" /></td></tr>
-        <!-- removed 2013-03-21 meeting
-        <tr><th><label for="comm-mgr-fax">Fax</label></th>
-            <td><input type="text" name="communityMgrFax" id="comm-mgr-fax" size="20" maxlength="20" class="phone" value="<?php echo $faxPhone ?>" /></td></tr>
-           -->
-    </tbody>
-</table>
+	<table>
+		<caption>Management Company</caption>
+	    <tbody>
+	    	<tr><th><label for="mgmt-name">Name</label></th>
+	        	<td><?php echo $company ?></td></tr>
+	    </tbody>
+	</table>
+	
+	<table>
+	    <caption>Community Manager</caption>
+	    <tbody>
+	        <tr><th><label for="comm-mgr">Name</label></th>
+	            <td><?php echo $manager ?></td></tr>
+	        <tr><th><label for="comm-mgr-email">Email</label></th>
+	            <td><?php echo $email ?></td></tr>
+	        <tr><th><label for="comm-mgr-phone">Phone</label></th>
+	            <td><?php echo $wkPhone ?></td></tr>
+	    </tbody>
+	</table>
+	
+	<table>
+	    <caption>Supervisor</caption>
+	    <tbody>
+	        <tr><th><label for="super-name">Name</label></th>
+	            <td><?php echo $supervisor ?></td></tr>
+	        <tr><th><label for="super-email">Email</label></th>
+	            <td><?php echo $supEmail ?></td></tr>
+	        <tr><th><label for="super-phone">Phone</label></th>
+	            <td><?php echo $supPhone ?></td></tr>
+	    	<tr><th><label for="super-addr">Address</label></th>
+	        	<td><?php echo $companyAddress ?></td></tr>
+	    </tbody>
+	</table>
+	
+	<table>
+	    <caption>Owner</caption>
+	    <tbody>
+	        <tr><th><label for="owner-name">Name</label></th>
+	            <td><?php echo $owner ?></td></tr>
+	    </tbody>
+	</table>
 
-<table>
-    <caption>Supervisor</caption>
-    <tbody>
-        <tr><th><label for="super-name">Name</label></th>
-            <td><input type="text" name="supervisor" id="super-name" size="40" maxlength="255" class="required" value="<?php echo $supervisor ?>" /></td></tr>
-        <tr><th><label for="super-email">Email</label></th>
-            <td><input type="text" name="supervisorEmail" id="super-email" size="60" maxlength="255" class="required email" value="<?php echo $supEmail ?>"/></td></tr>
-        <tr><th><label for="super-phone">Phone</label></th>
-            <td><input type="text" name="supervisorPhone" id="super-phone" size="20" maxlength="20" class="required phone" value="<?php echo $supPhone ?>" /></td></tr>
-        <!-- removed 2013-03-21 meeting
-        <tr><th><label for="super-fax">Fax</label></th>
-            <td><input type="text" name="supervisorFax" id="super-fax" size="20" maxlength="20" class="phone" value="<?php echo $supFaxPhone ?>" /></td></tr>
-           -->
-    	<tr><th><label for="super-addr">Address</label></th>
-        	<td><input type="text" name="mgmtCompanyAddr" id="super-addr" size="75" maxlength="255" class="required" value="<?php echo $companyAddress ?>" /></td></tr>
-    </tbody>
-</table>
-
-<table>
-    <caption>Owner</caption>
-    <tbody>
-        <tr><th><label for="owner-name">Name</label></th>
-            <td><input type="text" name="owner" id="owner-name" size="40" maxlength="255" class="required" value="<?php echo $owner ?>" /></td></tr>
-        <!-- removed 2013-03-21 meeting
-        <tr><th><label for="owner-addr">Address</label></th>
-            <td><input type="text" name="ownerAddress" id="owner-addr" size="75" maxlength="255" class="required" value="<?php echo $ownerAddr ?>" /></td></tr>
-        <tr><th><label for="owner-phone">Phone</label></th>
-            <td><input type="text" name="ownerPhone" id="owner-phone" size="20" maxlength="20" class="required phone" value="<?php echo $ownerPhone ?>" /></td></tr>
-        <tr><th><label for="owner-fax">Fax</label></th>
-            <td><input type="text" name="ownerFax" id="owner-fax" size="20" maxlength="20" class="phone" value="<?php echo $ownerFax ?>" /></td></tr>
-           -->
-    </tbody>
-</table>
-        <!-- removed 2013-03-21 meeting
-<table>
-	<tbody>
-        <tr><th><label for="comment">Comments</label></th>
-        	<td><textarea name="comments" id="comment" rows="3" cols="50"></textarea></td></tr>
-	</tbody>
-</table>-->
-
-  <!-- InstanceEndEditable -->
+</div>
 
 </div>
 <input type="submit" value="Submit" id="submit_bttn" />

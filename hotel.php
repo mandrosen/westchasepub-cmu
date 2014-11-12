@@ -115,19 +115,6 @@ if ($row3 = mysql_fetch_array($result3)) {
     </tbody>
 </table>
 
-  <!-- InstanceBeginEditable name="formarea" -->
-
-<table>
-    <caption>General Manager</caption>
-    <tbody>
-        <tr><th><label for="gen_mgr">Name</label></th>
-            <td><input type="text" name="generalMgr" id="gen_mgr" maxlength="255" size="60" class="required" value="<?php echo $genMgrName ?>" /></td></tr>
-        <tr><th><label for="gen_mgr_email">Email</label></th>
-            <td><input type="text" name="generalMgrEmail" id="gen_mgr_email" maxlength="255" size="60" class="required email" value="<?php echo $genMgrEmail ?>" /></td></tr>
-        <tr><th><label for="gen_mgr_phone">Phone</label></th>
-            <td><input type="text" name="generalMgrPhone" id="gen_mgr_phone" maxlength="20" size="60" class="required phone" value="<?php echo $genMgrPhone ?>" /></td></tr>
-    </tbody>
-</table>
 
 <table>
 	<tbody>
@@ -136,16 +123,33 @@ if ($row3 = mysql_fetch_array($result3)) {
     </tbody>
 </table>
 
-<!-- removed 2013-03-21 meeting
-<table>
-	<tbody>
-        <tr><th><label for="site_comment">Comments</label></th>
-        	<td><textarea name="comments" id="site_comment" rows="3" cols="50"></textarea></td></tr>
-	</tbody>
-</table>
--->
+<div id="static-info">
+	
+	<table>
+		<tbody>
+	    	<tr>
+	    		<td id="static-info-correct">
+	    			<span>Is the following information correct?</span>
+	    			<label>Yes<input type="radio" name="staticInfoCorrect" value="yes" checked="checked" /></label>
+	    			<label>No<input type="radio" name="staticInfoCorrect" value="no" /></label>
+	    		</td>
+	    	</tr>
+	    </tbody>
+	</table>
 
-  <!-- InstanceEndEditable -->
+	<table>
+	    <caption>General Manager</caption>
+	    <tbody>
+	        <tr><th><label for="gen_mgr">Name</label></th>
+	            <td><?php echo $genMgrName ?></td></tr>
+	        <tr><th><label for="gen_mgr_email">Email</label></th>
+	            <td><?php echo $genMgrEmail ?></td></tr>
+	        <tr><th><label for="gen_mgr_phone">Phone</label></th>
+	            <td><?php echo $genMgrPhone ?></td></tr>
+	    </tbody>
+	</table>
+
+</div>
 
 </div>
 <input type="submit" value="Submit" id="submit_bttn" />

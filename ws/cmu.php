@@ -49,7 +49,8 @@ $server->wsdl->addComplexType(
         'owner_address' => array('name' => 'owner_address', 'type' => 'xsd:string'),
         'owner_phone' => array('name' => 'owner_phone', 'type' => 'xsd:string'),
         'owner_fax' => array('name' => 'owner_fax', 'type' => 'xsd:string'),
-        'comments' => array('name' => 'comments', 'type' => 'xsd:string')
+        'comments' => array('name' => 'comments', 'type' => 'xsd:string'),
+        'static_info_correct' => array('name' => 'static_info_correct', 'type' => 'xsd:boolean')
     )
 );
 $server->wsdl->addComplexType(
@@ -85,7 +86,8 @@ $server->wsdl->addComplexType(
         'divide' => array('name' => 'divide', 'type' => 'xsd:int'),
         'price_sq_ft' => array('name' => 'price_sq_ft', 'type' => 'xsd:string'),
         'restrictions' => array('name' => 'restrictions', 'type' => 'xsd:string'),
-        'comments' => array('name' => 'comments', 'type' => 'xsd:string')
+        'comments' => array('name' => 'comments', 'type' => 'xsd:string'),
+        'static_info_correct' => array('name' => 'static_info_correct', 'type' => 'xsd:boolean')
     )
 );
 $server->wsdl->addComplexType(
@@ -115,7 +117,8 @@ $server->wsdl->addComplexType(
         'general_mgr_email' => array('name' => 'general_mgr_email', 'type' => 'xsd:string'),
         'general_mgr_phone' => array('name' => 'general_mgr_phone', 'type' => 'xsd:string'),
         'occupancy' => array('name' => 'occupancy', 'type' => 'xsd:float'),
-        'comments' => array('name' => 'comments', 'type' => 'xsd:string')
+        'comments' => array('name' => 'comments', 'type' => 'xsd:string'),
+        'static_info_correct' => array('name' => 'static_info_correct', 'type' => 'xsd:boolean')
     )
 );
 $server->wsdl->addComplexType(
@@ -191,7 +194,8 @@ $server->wsdl->addComplexType(
         'leasing_agent_phone' => array('name' => 'leasing_agent_phone', 'type' => 'xsd:string'),
         'leasing_agent_fax' => array('name' => 'leasing_agent_fax', 'type' => 'xsd:string'),
         'leasing_agent_email' => array('name' => 'leasing_agent_email', 'type' => 'xsd:string'),
-        'comments' => array('name' => 'comments', 'type' => 'xsd:string')
+        'comments' => array('name' => 'comments', 'type' => 'xsd:string'),
+        'static_info_correct' => array('name' => 'static_info_correct', 'type' => 'xsd:boolean')
     )
 );
 $server->wsdl->addComplexType(
@@ -285,7 +289,8 @@ function getNewApartments() {
 			'owner_address' =>$row["owner_address"],
 			'owner_phone' =>$row["owner_phone"],
 			'owner_fax' => $row["owner_fax"],
-			'comments' => $row["comments"]
+			'comments' => $row["comments"],
+			'static_info_correct' => $row['static_info_correct']
 		);
 	}
 	return $apts;
@@ -310,7 +315,8 @@ function getNewDevsites() {
 			'divide' =>$row["divide"],
 			'price_sq_ft' =>$row["price_sq_ft"],
 			'restrictions' =>$row["restrictions"],
-			'comments' =>$row["comments"]
+			'comments' =>$row["comments"],
+			'static_info_correct' => $row['static_info_correct']
 		);
 	}
 	return $sites;
@@ -329,7 +335,8 @@ function getNewHotels() {
 			'general_mgr_email' =>$row["general_mgr_email"],
 			'general_mgr_phone' =>$row["general_mgr_phone"],
 			'occupancy' =>$row["occupancy"],
-			'comments' =>$row["comments"]
+			'comments' =>$row["comments"],
+			'static_info_correct' => $row['static_info_correct']
 		);
 	}
 	return $hotels;
@@ -347,7 +354,8 @@ function getNewLeases() {
 			'sq_ft' =>$row["sq_ft"],
 			'lease_trans_type' =>$row["lease_trans_type"],
 			'owners_rep' =>$row["owners_rep"],
-			'tenants_rep' =>$row["tenants_rep"]
+			'tenants_rep' =>$row["tenants_rep"],
+			'static_info_correct' => $row['static_info_correct']
 		);
 	}
 	return $leases;
@@ -382,7 +390,8 @@ function getNewOfficeRetailSvcs() {
 			'leasing_agent_phone' =>$row["leasing_agent_phone"],
 			'leasing_agent_fax' =>$row["leasing_agent_fax"],
 			'leasing_agent_email' =>$row["leasing_agent_email"],
-			'comments' =>$row["comments"]
+			'comments' =>$row["comments"],
+			'static_info_correct' => $row['static_info_correct']
 		);
 	}
 	return $ors;

@@ -104,13 +104,6 @@ if ($row = mysql_fetch_array($result)) {
 
 if (!empty($buildingSize)) {
 	$buildingSize = number_format($buildingSize);
-} else {
-	$queryBS = "select sq_ft_for_lease from cmu_office_retail_svc where property = $mapno and quarter = ($quarter - 1)";
-	$resultBS = mysql_query($queryBS);
-	if ($rowBS = mysql_fetch_array($resultBS)) {
-		$buildingSize = number_format($rowBS["sq_ft_for_lease"]);
-	}
-	
 }
 
 // define these since they might not exist in the DB (to avoid warning)
@@ -155,55 +148,6 @@ if ($row2 = mysql_fetch_array($result2)) {
 		$companyAddress .= $roomNo . " ";	
 	}
 	$companyAddress .= $city . ", " . $state . " " . $zipCode;
-}
-
-
-if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty($wkPhone) ||
-    empty($faxPhone) || empty($email) || empty($agentCompany) || empty($companyAddress) ||
-    empty($agent) || empty($agentEmail) || empty($agentWkPhone) || empty($agentFaxPhone)) {
-
-	// last quarter results (to fill missing fields)
-	$lastQuarter = $quarter - 1;
-	$query3 = "select * from cmu_office_retail_svc where property = $mapno and quarter = $lastQuarter";
-	$result3 = mysql_query($query3);
-	if ($row3 = mysql_fetch_array($result3)) {
-		if (empty($mgrCompany)) {
-			$mgrCompany = $row3["mgmt_company"];
-		}
-		if (empty($mgrCompanyAddress)) {
-			$mgrCompanyAddress = $row3["mgmt_company_addr"];
-		}
-		if (empty($manager)) {
-			$manager = $row3["property_mgr"];
-		}
-		if (empty($wkPhone)) {
-			$wkPhone = $row3["property_mgr_phone"];
-		}
-		if (empty($faxPhone)) {
-			$faxPhone = $row3["property_mgr_fax"];
-		}
-		if (empty($email)) {
-			$email = $row3["property_mgr_email"];
-		}
-		if (empty($agentCompany)) {
-			$agentCompany = $row3["leasing_company"];
-		}
-		if (empty($companyAddress)) {
-			$companyAddress = $row3["leasing_company_addr"];
-		}
-		if (empty($agent)) {
-			$agent = $row3["leasing_agent"];
-		}
-		if (empty($agentEmail)) {
-			$agentEmail = $row3["leasing_agent_email"];
-		}
-		if (empty($agentWkPhone)) {
-			$agentWkPhone = $row3["leasing_agent_phone"];
-		}
-		if (empty($agentFaxPhone)) {
-			$agentFaxPhone = $row3["leasing_agent_fax"];
-		}
-	}
 }
 
 ?>
@@ -346,17 +290,17 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
 	}
 	
 	
-	function handleOnsiteChange() {
-		if ($('#is-onsite').is(':checked')) {
-		   $("#mgmt-addr").attr("readonly", "true");
-		   $("#mgmt-addr").addClass("readonly");
-		   $("#mgmt-addr").val('<?= $propLocFull ?>');
-		} else {
-		   $("#mgmt-addr").removeAttr("readonly");
-		   $("#mgmt-addr").removeClass("readonly");
-		   $("#mgmt-addr").val('<?= $mgrCompanyAddress ?>');
-		} 
-	}
+	//function handleOnsiteChange() {
+	//	if ($('#is-onsite').is(':checked')) {
+	//	   $("#mgmt-addr").attr("readonly", "true");
+	//	   $("#mgmt-addr").addClass("readonly");
+	//	   $("#mgmt-addr").val('<?= $propLocFull ?>');
+	//	} else {
+	//	   $("#mgmt-addr").removeAttr("readonly");
+	//	   $("#mgmt-addr").removeClass("readonly");
+	//	   $("#mgmt-addr").val('<?= $mgrCompanyAddress ?>');
+	//	} 
+	//}
 	</script>
 
 </head>
@@ -419,49 +363,12 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
      	   <td><input type="text" name="occupancy" id="occ_rate" class="required percent"/>
      	   </td></tr>
      	<input type="hidden" name="occupied" value="0" />
-     	<!--
-    	<tr><th><label id="occ-space">Occupied Space</label><span class="format">sq. ft</span></th>
-     	   <td><input type="text" name="occupied" id="occ_space" class="required"/>
-     	   </td></tr>
-     	  -->
      	<?php } 
         if (!$officeSingle) { ?>
     	<tr><th><label id="largest-space">Largest Contiguous Space Available (sq. ft)</label></th>
         	<td><input type="text" name="largestSpace" id="largest-space" class="required" /></td></tr>
         <?php } ?>
-        <!-- removed on 2013-03-21 meeting
-    	<tr><th><label id="largest-space6">Largest Contiguous Space Available (within 6 months)</label></th>
-        	<td><input type="text" name="largestSpace6" id="largest-space6" />sf.</td></tr>
-    	<tr><th><label id="largest-space12">Largest Contiguous Space Available (within 12 months)</label></th>
-        	<td><input type="text" name="largestSpace12" id="largest-space12" />sf.</td></tr>
-        -->
 
-    </tbody>
-</table>
-
-<table>
-	<caption>Management Company</caption>
-    <tbody>
-    	<tr><th><label for="mgmt-name">Company Name</label></th>
-        	<td><input type="text" name="mgmtCompany" id="mgmt-name" size="50" maxlength="255" value="<?php echo $mgrCompany ?>" class="required" /></td></tr>
-
-        <tr><th><label for="prop-mgr">Building Manager</label></th>
-            <td><input type="text" name="propertyMgr" id="prop-mgr" size="40" maxlength="255" value="<?php echo $manager ?>" class="required" /></td></tr>
-            
-    	<tr><th><label for="is-onsite">Onsite?</label></th>
-        	<td><input type="checkbox" name="isOnsite" id="is-onsite" onchange="handleOnsiteChange()" /></td></tr>
-        	
-        
-    	<tr><th><label for="mgmt-addr">Address</label></th>
-        	<td><input type="text" name="mgmtCompanyAddr" id="mgmt-addr" size="75" maxlength="255" value="<?php echo $mgrCompanyAddress ?>" class="required" /></td></tr>
-
-        <tr><th><label for="prop-mgr-phone">Phone</label></th>
-            <td><input type="text" name="propertyMgrPhone" id="prop-mgr-phone" size="20" maxlength="20" value="<?php echo $wkPhone ?>" class="required phone" /></td></tr>
-        <!--  removed on 2013-03-21 meeting
-        	<tr><th><label for="prop-mgr-fax">Fax</label></th>
-            <td><input type="text" name="propertyMgrFax" id="prop-mgr-fax" size="20" maxlength="20" value="<?php echo $faxPhone ?>" class="phone"/></td></tr>-->
-        <tr><th><label for="prop-mgr-email">Email</label></th>
-            <td><input type="text" name="propertyMgrEmail" id="prop-mgr-email" size="60" maxlength="255" value="<?php echo $email ?>" class="required email" /></td></tr>
     </tbody>
 </table>
 
@@ -478,34 +385,71 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
     </tbody>
 </table>
 
+<div id="static-info">
+	
+	<table>
+		<tbody>
+	    	<tr>
+	    		<td id="static-info-correct">
+	    			<span>Is the following information correct?</span>
+	    			<label>Yes<input type="radio" name="staticInfoCorrect" value="yes" checked="checked" /></label>
+	    			<label>No<input type="radio" name="staticInfoCorrect" value="no" /></label>
+	    		</td>
+	    	</tr>
+	    </tbody>
+	</table>
+
+	<table>
+		<caption>Management Company</caption>
+	    <tbody>
+	    	<tr><th><label for="mgmt-name">Name</label></th>
+	        	<td><?php echo $mgrCompany ?></td></tr>
+	
+	        <tr><th><label for="prop-mgr">Building Manager</label></th>
+	            <td><?php echo $manager ?></td></tr>
+	    	<tr><th><label for="mgmt-addr">Address</label></th>
+	        	<td><?php echo $mgrCompanyAddress ?></td></tr>
+	
+	        <tr><th><label for="prop-mgr-phone">Phone</label></th>
+	            <td><?php echo $wkPhone ?></td></tr>
+	        <tr><th><label for="prop-mgr-email">Email</label></th>
+	            <td><?php echo $email ?></td></tr>
+	    </tbody>
+	</table>
+	
+	<?php if (!$officeSingle) { ?>
+	
+	<table>
+	    <caption>Leasing Company</caption>
+	    <tbody>
+	        <tr><th><label for="lease-comp">Name</label></th>
+	            <td><?php echo $agentCompany ?></td></tr>
+	        <tr><th><label for="lease-comp-addr">Address</label></th>
+	            <td><?php echo $companyAddress ?></td></tr>
+	        <tr><th><label for="lease-comp-agent">Agent</label></th>
+	            <td><?php echo $agent ?></td></tr>
+	        <tr><th><label for="lease-comp-email">Email</label></th>
+	            <td><?php echo $agentEmail ?></td></tr>
+	        <tr><th><label for="lease-comp-phone">Phone</label></th>
+	            <td><?php echo $agentWkPhone ?></td></tr>
+	    </tbody>
+	</table>
+	
+	
+	<?php } ?>
+
+</div>
+
+
+
 <?php if (!$officeSingle) { ?>
-
-<table>
-    <caption>Leasing Company</caption>
-    <tbody>
-        <tr><th><label for="lease-comp">Name</label></th>
-            <td><input type="text" name="leasingCompany" id="lease-comp" size="50" maxlength="255" value="<?php echo $agentCompany ?>" class="required" /></td></tr>
-        <tr><th><label for="lease-comp-addr">Address</label></th>
-            <td><input type="text" name="leasingCompanyAddr" id="lease-comp-addr" size="75" maxlength="255" value="<?php echo $companyAddress ?>" class="required" /></td></tr>
-        <tr><th><label for="lease-comp-agent">Agent</label></th>
-            <td><input type="text" name="leasingCompanyAgent" id="lease-comp-agent" size="40" maxlength="255" value="<?php echo $agent ?>" class="required" /></td></tr>
-        <tr><th><label for="lease-comp-email">Email</label></th>
-            <td><input type="text" name="leasingCompanyEmail" id="lease-comp-email" siZe="60" maxlength="255" value="<?php echo $agentEmail ?>" class="required email" /></td></tr>
-        <tr><th><label for="lease-comp-phone">Phone</label></th>
-            <td><input type="text" name="leasingCompanyPhone" id="lease-comp-phone" size="20" maxlength="20" value="<?php echo $agentWkPhone ?>" class="required phone" /></td></tr>
-        <!-- removed on 2013-03-21 meeting
-        	<tr><th><label for="lease-comp-fax">Fax</label></th>
-            <td><input type="text" name="leasingCompanyFax" id="lease-comp-fax" size="20" maxlength="20" value="<?php echo $agentFaxPhone ?>" class="phone" /></td></tr>-->
-    </tbody>
-</table>
-
-
+	
 <hr />
 <h5>Optional: This information is withheld from public reports and is for internal use only.</h5>
 
 <table class="transactioninfos">
 <caption>During the quarter, any new leases, renewals, expansions, or move-outs?  Please complete below.</caption>
-<thead><tr><th>Type</th><th>Sq. Ft.</th><th>Tenant Name</th><th>Tenants Rep - Broker & Co</th></tr></thead>
+<thead><tr><th>Type</th><th>Sq. Ft.</th><th>Tenant Name</th><th>Tenants Rep - Broker &amp; Co</th></tr></thead>
 <tbody id="transactions">
 <tr>
     <td><select name="transType[]"><?php echo $transTypeOpts ?></select></td>
@@ -539,8 +483,6 @@ if (empty($mgrCompany) || empty($mgrCompanyAddress) || empty($manager) || empty(
 <p><a href="javascript:addTransRow()">Add Transaction</a></p>
 
 <?php } ?>
-
-  <!-- InstanceEndEditable -->
 
 </div>
 
