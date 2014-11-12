@@ -23,7 +23,7 @@ if ($month >= 1 and $month <= 3) {
 
 
 // $quarterQuery = "select * from cmu_quarter where id < 999999999";
-$quarterQuery = "select id from cmu_quarter where year = $currentQuarterYear = quarter_num = $currentQuarterNum";
+$quarterQuery = "select id from cmu_quarter where year = $currentQuarterYear and quarter_num = $currentQuarterNum";
 $quarterResult = mysql_query($quarterQuery);
 
 
@@ -100,7 +100,6 @@ if (isset($_POST["mapno"]) && !empty($_POST["mapno"])) {
                 		<input type="hidden" name="quarter" value="<?php echo $quarterId ?>" />
                         <label for="mapno">Please enter the Map Number of your property: </label>
                         <input type="text" name="mapno" id="mapno" size="3" maxlength="4" />
-
 						<span class="quarter">You are entering data for Q<?php echo $currentQuarterNum ?> <?php echo $currentQuarterYear ?></span>
                         <input type="submit" value="Submit" />
                     </div>
