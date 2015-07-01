@@ -13,6 +13,11 @@ if ($month >= 1 and $month <= 3) {
 } else if ($month >= 4 and $month <= 6) {
 	$currentQuarterNum = 1;
 	$currentQuarterYear = $year;
+	
+	// Jonathan asked for a day early (2015-06-30)
+	if ($dateArray["mday"] >= 30) {
+		$currentQuarterNum = 2;
+	}
 } else if ($month >= 7 and $month < 9) {
 	$currentQuarterNum = 2;
 	$currentQuarterYear = $year;
