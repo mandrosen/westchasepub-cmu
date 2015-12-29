@@ -21,14 +21,34 @@ if ($row = mysql_fetch_array($result)) {
 
 // last quarter results (to fill missing fields)
 $lastQuarter = $quarter - 1;
-$query3 = "select * from cmu_hotel where property = $mapno and quarter = $lastQuarter";
+$genMgrName = "";
+$query3 = "select pb.FirstName, pb.LastName, pb.WkPhone, pb.Wkext, pb.Email 
+from phone_book_category ca 
+  inner join phone_book_relation pbr on ca.phonebookid = pbr.phone_book
+  inner join phone_book pb on pbr.phone_book = pb.id
+  inner join company c on pb.companyid = c.id
+where ca.categorycode = 'hc'
+  and pbr.property = $mapno";
 $result3 = mysql_query($query3);
 if ($row3 = mysql_fetch_array($result3)) {
-	$genMgrName = $row3["general_mgr"];
-	$genMgrEmail = $row3["general_mgr_email"];
-	$genMgrPhone = $row3["general_mgr_phone"];
+	if (!empty($row3["FirstName"])) {
+		$genMgrName = $row3["FirstName"] . " " . $row3["LastName"];
+	}
+	$genMgrEmail = $row3["Email"];
+	$genMgrPhone = $row3["WkPhone"];
+	if (!empty($row3["Wkext"])) {
+		$genMgrPhone .= " x" + $row3["Wkext"];
+	}
+} 
+if (empty($genMgrName)) {
+	$query3a = "select * from cmu_hotel where property = $mapno and quarter = $lastQuarter";
+	$result3a = mysql_query($query3a);
+	if ($row3a = mysql_fetch_array($result3a)) {
+		$genMgrName = $row3a["general_mgr"];
+		$genMgrEmail = $row3a["general_mgr_email"];
+		$genMgrPhone = $row3a["general_mgr_phone"];
+	}
 }
-
 ?>
 
 <!DOCTYPE html>
